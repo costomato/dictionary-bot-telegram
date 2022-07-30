@@ -1,7 +1,11 @@
 import requests
 from telegram import ParseMode
+import os
+from dotenv import load_dotenv
 from telegram.ext import *
 import keys
+
+load_dotenv()
 
 print("Starting bot...")
 
@@ -54,7 +58,8 @@ def error(update, context):
     print(f'Update {update} caused error {context.error}')
 
 if __name__ == '__main__':
-    updater = Updater(keys.bot_token, use_context=True)
+    # updater = Updater(keys.bot_token, use_context=True)
+    updater = Updater(os.getenv('BOT_TOKEN'), use_context=True)
     dp = updater.dispatcher
 
     # Add handlers
