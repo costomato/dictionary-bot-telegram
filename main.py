@@ -55,7 +55,8 @@ def handle_message(update, context):
     
 
 def error(update, context):
-    print(f'Update {update} caused error {context.error}')
+    # print(f'Update {update} caused error {context.error}')
+    print('Update', update, 'caused error', context.error)
 
 if __name__ == '__main__':
     # updater = Updater(keys.bot_token, use_context=True)
