@@ -40,7 +40,7 @@ def handle_message(update, context):
             if 'partOfSpeech' in j:
                 result += '_' + j['partOfSpeech'] + '_\n'
             for k in j['definitions']:
-                result += '• ' + k['definition'] + '\n'
+                result += '-> ' + k['definition'] + '\n'
                 if 'synonyms' in k and k['synonyms']:
                     result += '`Synonyms: ' + ', '.join(k['synonyms']) + '`\n'
                 if 'antonyms' in k and k['antonyms']:
