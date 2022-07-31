@@ -15,11 +15,7 @@ def start_command(update, context):
     update.message.reply_text("Hello there, I'm your handy dictionary. Send me any word for which you want to know the meaning.")
 
 def help_command(update, context):
-    # TODO
-    update.message.reply_text("Send my any word and I will try to find the meaning for it.")
-
-def custom_command(update, context):
-    update.message.reply_text("Hello there, I'm your handy dictionary.")
+    update.message.reply_text("Send me any word and I will try to find the meaning for it.")
 
 def handle_message(update, context):
     msg = update.message.reply_text('One moment please...')
@@ -68,7 +64,6 @@ if __name__ == '__main__':
     # Add handlers
     dp.add_handler(CommandHandler('start', start_command))
     dp.add_handler(CommandHandler('help', help_command))
-    dp.add_handler(CommandHandler('custom', custom_command))
 
     # handle messages
     dp.add_handler(MessageHandler(Filters.text, handle_message))
@@ -79,7 +74,6 @@ if __name__ == '__main__':
     # Start the Bot
     # updater.start_polling()
     updater.start_webhook(listen="0.0.0.0", port=int(PORT), url_path=TOKEN, webhook_url=os.getenv('BASE_URL') + TOKEN)
-    # updater.bot.setWebhook(os.getenv('BASE_URL') + TOKEN)
 
     updater.idle()
 
@@ -89,5 +83,4 @@ Bot commands:
 
 start - Start the bot
 help - Show help
-custom - Show custom message
 '''
