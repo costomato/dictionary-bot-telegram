@@ -6,7 +6,7 @@ from telegram.ext import *
 
 load_dotenv()
 
-PORT = int(os.environ.get('PORT', 5000))
+PORT = int(os.environ.get('PORT', 8443))
 TOKEN = os.getenv('BOT_TOKEN')
 
 print("Starting bot...")
