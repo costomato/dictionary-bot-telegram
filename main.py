@@ -6,6 +6,9 @@ from telegram.ext import *
 
 load_dotenv()
 
+PORT = int(os.environ.get('PORT', 5000))
+TOKEN = os.getenv('BOT_TOKEN')
+
 print("Starting bot...")
 
 def start_command(update, context):
@@ -59,7 +62,7 @@ def error(update, context):
 
 if __name__ == '__main__':
     # updater = Updater(keys.bot_token, use_context=True)
-    updater = Updater(os.getenv('BOT_TOKEN'), use_context=True)
+    updater = Updater(TOKEN, use_context=True)
     dp = updater.dispatcher
 
     # Add handlers
@@ -74,7 +77,10 @@ if __name__ == '__main__':
     dp.add_error_handler(error)
 
     # Start the Bot
-    updater.start_polling()
+    # updater.start_polling()
+    updater.start_webhook(listen="0.0.0.0", port=int(PORT), url_path=TOKEN)
+    updater.bot.setWebhook(os.getenv('BASE_URL') + TOKEN)
+
     updater.idle()
 
 
