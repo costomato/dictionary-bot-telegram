@@ -78,8 +78,8 @@ if __name__ == '__main__':
 
     # Start the Bot
     # updater.start_polling()
-    updater.start_webhook(listen="0.0.0.0", port=int(PORT), url_path=TOKEN)
-    updater.bot.setWebhook(os.getenv('BASE_URL') + TOKEN)
+    updater.start_webhook(listen="0.0.0.0", port=int(PORT), url_path=TOKEN, webhook_url=os.getenv('BASE_URL') + TOKEN)
+    # updater.bot.setWebhook(os.getenv('BASE_URL') + TOKEN)
 
     updater.idle()
 
