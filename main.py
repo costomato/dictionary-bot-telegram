@@ -49,8 +49,23 @@ def handle_message(update, context):
         result += '\n'
         count += 1
 
-    context.bot.edit_message_text(chat_id=chat_id, message_id=msg.message_id, text=result, parse_mode=ParseMode.MARKDOWN)
-    
+    if len(result) <= 4000:
+        context.bot.edit_message_text(chat_id=chat_id, message_id=msg.message_id, text=result, parse_mode=ParseMode.MARKDOWN)
+    else: # split the message if it's too long
+        chunk_size = 4000
+        while result:
+            y = result[:chunk_size]
+            if '\n' in y:
+                j = y.rindex('\n')
+                if msg:
+                    context.bot.edit_message_text(chat_id=chat_id, message_id=msg.message_id, text=y[:j], parse_mode=ParseMode.MARKDOWN)
+                    msg = None
+                else:
+                    context.bot.send_message(chat_id=chat_id, text=y[:j], parse_mode=ParseMode.MARKDOWN)
+                result = result[j+1:]
+            else:
+                context.bot.send_message(chat_id=chat_id, text=y, parse_mode=ParseMode.MARKDOWN)
+                result = result[chunk_size:]
 
 def error(update, context):
     # print(f'Update {update} caused error {context.error}')
