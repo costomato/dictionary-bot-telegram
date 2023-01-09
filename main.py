@@ -1,8 +1,9 @@
 import requests
-from telegram import ParseMode
+from telegram import InlineQueryResultArticle, InputTextMessageContent, ParseMode
 import os
 from dotenv import load_dotenv
 from telegram.ext import *
+import methods
 
 load_dotenv()
 
@@ -67,6 +68,18 @@ def handle_message(update, context):
                 context.bot.send_message(chat_id=chat_id, text=y, parse_mode=ParseMode.MARKDOWN)
                 result = result[chunk_size:]
 
+def inline_query(update, context):
+    query = update.inline_query.query
+    if not query:
+        return
+    results = list()
+    results.append(InlineQueryResultArticle(
+        id=query,
+        title=query,
+        input_message_content=InputTextMessageContent(methods.search_word(query)),
+    ))
+    context.bot.answer_inline_query(update.inline_query.id, results)
+
 def error(update, context):
     # print(f'Update {update} caused error {context.error}')
     print('Update', update, 'caused error', context.error)
@@ -83,12 +96,15 @@ if __name__ == '__main__':
     # handle messages
     dp.add_handler(MessageHandler(Filters.text, handle_message))
 
+    # handle inline queries
+    dp.add_handler(InlineQueryHandler(inline_query))
+
     # log all errors
     dp.add_error_handler(error)
 
     # Start the Bot
-    # updater.start_polling()
-    updater.start_webhook(listen="0.0.0.0", port=int(PORT), url_path=TOKEN, webhook_url=os.getenv('BASE_URL') + TOKEN)
+    updater.start_polling()
+    # updater.start_webhook(listen="0.0.0.0", port=int(PORT), url_path=TOKEN, webhook_url=os.getenv('BASE_URL') + TOKEN)
 
     updater.idle()
 
